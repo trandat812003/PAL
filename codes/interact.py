@@ -4,13 +4,11 @@ import json
 import datetime
 import torch
 from torch import Tensor
-import numpy as np
 import os
 import logging
 import argparse
-import random
 
-from transformers.trainer_utils import set_seed
+# from transformers.trainer_utils import set_seed
 from utils.building_utils import boolean_string, build_model, deploy_model
 from inputters import inputters
 from inputters.inputter_utils import _norm

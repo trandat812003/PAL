@@ -4,10 +4,10 @@ import json
 import os
 import logging
 import torch
-from os.path import join
+# from os.path import join
 
 from models import models
-from transformers import (AutoTokenizer, AutoModel, AutoConfig)
+from transformers import (AutoTokenizer, AutoConfig)
 from torch.distributed import get_rank
 
 logger = logging.getLogger(__name__)

@@ -2,13 +2,10 @@
 # copied from bart
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 from models.model_utils import BaseModel
-from transformers.generation_utils import top_k_top_p_filtering
 from transformers.models.blenderbot_small import (BlenderbotSmallConfig, BlenderbotSmallForConditionalGeneration,)
-from transformers.modeling_outputs import (BaseModelOutput, Seq2SeqModelOutput, Seq2SeqLMOutput,)
-from .PARAMS import SAMPLE, TEMPERATURE
+from transformers.modeling_outputs import Seq2SeqLMOutput
 
 
 class Model(BaseModel, BlenderbotSmallForConditionalGeneration):

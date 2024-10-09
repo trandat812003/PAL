@@ -1,7 +1,4 @@
-import json
 from tqdm import tqdm
-import torch
-import random
 from transformers import BartTokenizer
 import pandas as pd
 
@@ -48,4 +45,4 @@ for name in datatype:
         'context': [i['context'] for i in tmp_data],
         'persona': [i['persona'] for i in tmp_data]
     })
-    tmp_df.to_csv(f"{name}.csv")
+    tmp_df.to_csv(f"Persona_chat/data/both_original/{name}.csv")

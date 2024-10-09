@@ -1,7 +1,4 @@
 # coding=utf-8
-import gzip
-import json
-import os
 import math
 import random
 import pickle

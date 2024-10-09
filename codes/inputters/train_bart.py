@@ -1,18 +1,11 @@
-import transformers
-from transformers import BartTokenizer, BartForConditionalGeneration, get_linear_schedule_with_warmup
-from torch.utils.data import DataLoader, TensorDataset, random_split, RandomSampler, Dataset
+from transformers import get_linear_schedule_with_warmup
+from torch.utils.data import DataLoader, TensorDataset, RandomSampler
 import pandas as pd
-import numpy as np
 import os
 import torch.nn.functional as F
 import pytorch_lightning as pl
 import torch
-from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
-import math
-import random
-import re
 import argparse
-from tqdm import trange
 
 hparams = argparse.Namespace()
 hparams.num_workers = 16
@@ -24,7 +17,7 @@ hparams.freeze_encoder = False
 hparams.freeze_embeds = False
 hparams.eval_beams = 5
 hparams.warmup_steps = 100
-hparams.train_dir = '/home/chengjiale/emotion/Persona_extractor/data/both_original'
+hparams.train_dir = 'Persona_chat/data/both_original'
 hparams.max_train_epochs = 10
 hparams.lr = 1e-5
 # hparams.model_dir_or_name = "facebook/bart-base"

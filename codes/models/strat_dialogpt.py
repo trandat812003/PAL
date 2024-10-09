@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from models.model_utils import BaseModel
-from transformers.generation_utils import top_k_top_p_filtering
+from utils import top_k_top_p_filtering
 from transformers.models.gpt2 import (GPT2Config, GPT2LMHeadModel,)
 from transformers.modeling_outputs import (CausalLMOutputWithCrossAttentions,)
 from .PARAMS import SAMPLE, TEMPERATURE

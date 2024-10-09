@@ -2,7 +2,7 @@ import json
 import torch
 from scipy.spatial.distance import cosine
 from transformers import AutoModel, AutoTokenizer
-from tqdm import tqdm, trange
+from tqdm import trange
 import argparse
 
 parser = argparse.ArgumentParser()

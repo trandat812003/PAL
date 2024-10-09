@@ -1,17 +1,11 @@
-import transformers
 from transformers import BartTokenizer, BartForConditionalGeneration, get_linear_schedule_with_warmup
-from torch.utils.data import DataLoader, TensorDataset, random_split, RandomSampler, Dataset
+from torch.utils.data import DataLoader, TensorDataset, RandomSampler
 import pandas as pd
-import numpy as np
 import os
 import torch.nn.functional as F
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
-from utils import top_k_top_p_filtering
-import math
-import random
-import re
 import argparse
 from tqdm import trange
 
@@ -75,8 +69,8 @@ class LitModel(pl.LightningModule):
         self.log('val_loss', loss)
         return loss
 
-    def validation_epoch_end(self, outputs):
-        super().validation_epoch_end(outputs)
+    # def validation_epoch_end(self, outputs):
+    #     super().validation_epoch_end(outputs)
 
     def test_step(self, batch, batch_idx):
 
@@ -85,9 +79,13 @@ class LitModel(pl.LightningModule):
         self.test_loss.append(loss)
         return loss
 
-    def test_epoch_end(self, outputs):
-        super().test_epoch_end(outputs)
-        print("average test loss: {}".format(sum(self.test_loss) / len(self.test_loss)))
+    # def test_epoch_end(self, outputs):
+    #     super().test_epoch_end(outputs)
+    #     print("average test loss: {}".format(sum(self.test_loss) / len(self.test_loss)))
+
+    def on_validation_epoch_end(self):
+        if self.test_loss:
+            print("average test loss: {}".format(sum(self.test_loss) / len(self.test_loss)))
 
     # Method that generates text using the BartForConditionalGeneration's generate() method
     def generate_text(self, text, eval_beams, early_stopping=True, max_len=128):
@@ -222,12 +220,11 @@ def main():
                                        patience=5,
                                        mode='min')
     trainer = pl.Trainer(
-        gpus=1,
         callbacks=[checkpoint_callback, earlystop_callback],
         max_epochs=hparams.max_train_epochs,
         val_check_interval=0.25,
         min_epochs=1,
-        default_root_dir='/home/chengjiale/emotion/Persona_extractor/pl_root'
+        default_root_dir='./Persona_chat/pl_root'
     )
 
     trainer.fit(model, data)
@@ -298,7 +295,7 @@ if __name__ == '__main__':
     hparams.freeze_embeds = False
     hparams.eval_beams = 10
     hparams.warmup_steps = 100
-    hparams.train_dir = '/home/chengjiale/emotion/Persona_extractor/data/both_original'
+    hparams.train_dir = 'Persona_chat/data/both_original'
     hparams.max_train_epochs = 10
     hparams.lr = 1e-5
     hparams.model_dir_or_name = "facebook/bart-large-cnn"

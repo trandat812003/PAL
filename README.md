@@ -31,8 +31,8 @@ Our data is from parlai (https://github.com/facebookresearch/ParlAI/tree/main/pr
 
 To run this code, just put the PersonaChat dataset under this path and
 ```python
-python process_bart_df.py
-python train_bart.py
+python persona_extractor/process_bart_df.py  
+python persona_extractor/train_bart.py
 ```
 
 ## PESC Dataset

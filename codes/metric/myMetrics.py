@@ -1,10 +1,10 @@
 # coding=utf-8
 
-import json
+# import json
 import warnings
 import numpy as np
 import nltk
-from typing import List
+# from typing import List
 from collections import Counter
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
