@@ -134,14 +134,12 @@ class LitDataModule(pl.LightningDataModule):
 
     # Load the training, validation and test sets in Pytorch Dataset objects
     def train_dataloader(self):
-        dataset = TensorDataset(self.train_data['input_ids'], self.train_data['attention_mask'],
-                                self.train_data['labels'])
+        dataset = TensorDataset(self.train_data['input_ids'], self.train_data['attention_mask'], self.train_data['labels'])
         train_data = DataLoader(dataset, sampler=RandomSampler(dataset), batch_size=self.batch_size, num_workers=hparams.num_workers)
         return train_data
 
     def val_dataloader(self):
-        dataset = TensorDataset(self.valid_data['input_ids'], self.valid_data['attention_mask'],
-                                self.valid_data['labels'])
+        dataset = TensorDataset(self.valid_data['input_ids'], self.valid_data['attention_mask'], self.valid_data['labels'])
         val_data = DataLoader(dataset, batch_size=self.batch_size, num_workers=hparams.num_workers)
         return val_data
 
@@ -151,8 +149,7 @@ class LitDataModule(pl.LightningDataModule):
         return test_data
 
 
-def encode_sentences(tokenizer, source_sentences, target_sentences, max_length=128, pad_to_max_length=True,
-                     return_tensors="pt"):
+def encode_sentences(tokenizer, source_sentences, target_sentences, max_length=128, pad_to_max_length=True, return_tensors="pt"):
     ''' Function that tokenizes a sentence
         Args: tokenizer - the BART tokenizer; source and target sentences are the source and target sentences
         Returns: Dictionary with keys: input_ids, attention_mask, labels
@@ -237,9 +234,7 @@ def infer():
     tokenizer = BartTokenizer.from_pretrained(hparams.model_dir_or_name)
     tokenizer.add_special_tokens({'additional_special_tokens': ["<persona>", "<sep>"]})
     bart_model.resize_token_embeddings(len(tokenizer))
-    model = LitModel.load_from_checkpoint(
-        "epoch=7-step=8384.ckpt",
-        learning_rate=1e-5, tokenizer=tokenizer, model=bart_model)
+    model = LitModel.load_from_checkpoint("epoch=7-step=8384.ckpt", learning_rate=1e-5, tokenizer=tokenizer, model=bart_model)
     model.to('cuda:0')
     model.eval()
     df = pd.read_csv('test.csv')
@@ -247,10 +242,10 @@ def infer():
     res = []
     start = 0
     context = []
-    context_number = []
-    dialog_id = []
+    # context_number = []
+    # dialog_id = []
     tmp_context = df['context'].to_list()
-    now_id = 0
+    # now_id = 0
     # ESC
     # for i in tmp_context:
     #     ctx_num = 3
@@ -288,9 +283,9 @@ def infer():
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '2'
     hparams = argparse.Namespace()
-    hparams.num_workers = 16
-    hparams.train_bath_size = 16
-    hparams.eval_batch_size = 8
+    hparams.num_workers = 4
+    hparams.train_bath_size = 8
+    hparams.eval_batch_size = 4
     hparams.freeze_encoder = False
     hparams.freeze_embeds = False
     hparams.eval_beams = 10
